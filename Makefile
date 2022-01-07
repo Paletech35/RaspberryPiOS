@@ -3,7 +3,7 @@ OFILES = $(CFILES:.c=.o)
 HFILES = $(wildcard *.h)
 GCCPATH = /home/connor/opt/cross/bin
 
-kernel7.img: boot.o $(OFILES) $(HFILES) clean
+kernel7.img: boot.o $(OFILES) $(HFILES)
 	$(GCCPATH)/arm-none-eabi-gcc -T linker.ld -o os.elf -O2 -ffreestanding -nostdinc -nostdlib boot.o $(OFILES)
 	$(GCCPATH)/arm-none-eabi-objcopy os.elf -O binary kernel7.img
 
@@ -13,5 +13,5 @@ boot.o: boot.S
 %.o: %.c
 	$(GCCPATH)/arm-none-eabi-gcc -O2 mcpu=arm1176jzf-s -fpic -ffreestanding -std=gnu99 -c $< -O $@
 
-clean
+clean :
 	-rm *.o
