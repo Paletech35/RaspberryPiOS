@@ -16,6 +16,7 @@ unsigned char *fb;
 void initialise_fb(){
  int length = 0;
  int ptr = 2;
+ /*
  
  mailbox[0] = 35*4;
  mailbox[1] = MBTAG_EDGE;
@@ -36,15 +37,58 @@ void initialise_fb(){
  uart_putc((fbstart & 0x0000000F >> 0) + 48);
  unsigned int pitchloc = add_getpitch(&ptr);
  
- mailbox[ptr] = MBTAG_EDGE;
+ mailbox[ptr] = MBTAG_EDGE;*/
+ mailbox[0] = 35*4; // Length of message in bytes
+    mailbox[1] = MBTAG_EDGE;
+
+    mailbox[2] = MBTAG_SETWH; // Tag identifier
+    mailbox[3] = 8; // Value size in bytes
+    mailbox[4] = 0;
+    mailbox[5] = 1920; // Value(width)
+    mailbox[6] = 1080; // Value(height)
+
+    mailbox[7] = MBTAG_SETVWH;
+    mailbox[8] = 8;
+    mailbox[9] = 8;
+    mailbox[10] = 1920;
+    mailbox[11] = 1080;
+
+    mailbox[12] = MBTAG_SETVOFFSET;
+    mailbox[13] = 8;
+    mailbox[14] = 8;
+    mailbox[15] = 0; // Value(x)
+    mailbox[16] = 0; // Value(y)
+
+    mailbox[17] = MBTAG_SETDEPTH;
+    mailbox[18] = 4;
+    mailbox[19] = 4;
+    mailbox[20] = 32; // Bits per pixel
+
+    mailbox[21] = MBTAG_SETPIXELORDER;
+    mailbox[22] = 4;
+    mailbox[23] = 4;
+    mailbox[24] = 1; // RGB
+
+    mailbox[25] = MBTAG_GETFB;
+    mailbox[26] = 8;
+    mailbox[27] = 8;
+    mailbox[28] = 4096; // FrameBufferInfo.pointer
+    mailbox[29] = 0;    // FrameBufferInfo.size
+
+    mailbox[30] = MBTAG_GETPITCH;
+    mailbox[31] = 4;
+    mailbox[32] = 4;
+    mailbox[33] = 0; // Bytes per line
+
+    mailbox[34] = MBTAG_EDGE;
  
- if (mailbox_call(8) && mailbox[fbstart] != 0 && mailbox[pitchloc] == 32){
+ if (mailbox_call(8) && mailbox[28] != 0 && mailbox[20] == 32){
  uart_puts("initialise_fb success");
- width = mailbox[whloc];
- height = mailbox[whloc + 1];
- pitch = mailbox[pitchloc];
- mailbox[fbstart] &= 0x3FFFFFFF;
- fb = (unsigned char *)((long)mailbox[fbstart]);
+ width = mailbox[10];
+ height = mailbox[11];
+ pitch = mailbox[33];
+ mailbox[28] &= 0x3FFFFFFF;
+ fb = (unsigned char *)((long)mailbox[28]);
  }
  else{uart_puts("initialise_fb failed");}
 
