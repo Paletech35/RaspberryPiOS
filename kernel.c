@@ -128,6 +128,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 	uart_init();
 	uart_puts("Hello, kernel World!\r\n");
 	
+	initialise_fb();
+	
 	unsigned char col[4] = {0, 255, 255, 0};
 	
 	pixel(1, 1, &col[0]);

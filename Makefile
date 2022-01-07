@@ -11,5 +11,5 @@ boot.o: boot.S
 	$(GCCPATH)/arm-none-eabi-gcc -mcpu=arm1176jzf-s -fpic -ffreestanding -c boot.S -o boot.o
 
 %.o: %.c
-	$(GCCPATH)/arm-none-eabi-gcc -O2 -mcpu=arm1176jzf-s -fpic -ffreestanding -std=gnu99 -c $< -O $@
+	$(GCCPATH)/arm-none-eabi-gcc -O2 -mcpu=arm1176jzf-s -fpic -ffreestanding -std=gnu99 -c $< -o $@
 
