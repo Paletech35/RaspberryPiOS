@@ -3,7 +3,7 @@
 #include "io.h"
  
 
- 
+ /*
 // Memory-Mapped I/O output
 static inline void mmio_write(uint32_t reg, uint32_t data)
 {
@@ -15,6 +15,7 @@ static inline uint32_t mmio_read(uint32_t reg)
 {
 	return *(volatile uint32_t*)(MMIO_BASE + reg);
 }
+*/
  
 // Loop <delay> times in a way that the compiler won't optimize away
 static inline void delay(int32_t count)
@@ -26,7 +27,7 @@ static inline void delay(int32_t count)
 enum
 {
     // The offsets for reach register.
-    GPIO_BASE = 0x200000,
+    GPIO_BASE = MMIO_BASE +0x200000,
  
     // Controls actuation of pull up/down to ALL GPIO pins.
     GPPUD = (GPIO_BASE + 0x94),
@@ -57,11 +58,13 @@ enum
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
  
+ /*
     // The offsets for Mailbox registers
     MBOX_BASE    = 0xB880,
     MBOX_READ    = (MBOX_BASE + 0x00),
     MBOX_STATUS  = (MBOX_BASE + 0x18),
     MBOX_WRITE   = (MBOX_BASE + 0x20)
+*/
 };
  
 // A Mailbox message with set clock rate of PL011 to 3MHz tag
