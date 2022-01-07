@@ -26,17 +26,27 @@ void initialise_fb(){
  add_setdepth(32, &ptr);
  add_setpixelorder(&ptr);
  unsigned int fbstart = add_getfb(&ptr);
+ uart_putc((fbstart & 0xF0000000 >> 28) + 48);
+ uart_putc((fbstart & 0x0F000000 >> 24) + 48);
+ uart_putc((fbstart & 0x00F00000 >> 20) + 48);
+ uart_putc((fbstart & 0x000F0000 >> 16) + 48);
+ uart_putc((fbstart & 0x0000F000 >> 12) + 48);
+ uart_putc((fbstart & 0x00000F00 >> 8) + 48);
+ uart_putc((fbstart & 0x000000F0 >> 4) + 48);
+ uart_putc((fbstart & 0x0000000F >> 0) + 48);
  unsigned int pitchloc = add_getpitch(&ptr);
  
  mailbox[ptr] = MBTAG_EDGE;
  
  if (mailbox_call(8) && mailbox[fbstart] != 0 && mailbox[pitchloc] == 32){
- width = mailbox[whloc++];
- height = mailbox[whloc];
+ uart_puts("initialise_fb success");
+ width = mailbox[whloc];
+ height = mailbox[whloc + 1];
  pitch = mailbox[pitchloc];
  mailbox[fbstart] &= 0x3FFFFFFF;
  fb = (unsigned char *)((long)mailbox[fbstart]);
  }
+ else{uart_puts("initialise_fb failed");}
 
 }
 
