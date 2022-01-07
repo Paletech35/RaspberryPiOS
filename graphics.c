@@ -94,11 +94,9 @@ void initialise_fb(){
 
 }
 
-void pixel(int x, int y, unsigned char *col){
+void pixel(int x, int y, unsigned int col){
  int addr = y * pitch + x * 4;
- for (int i = 0; i < 4; i++){
- *((unsigned int*)(fb + addr)) = *(col + i);
- }
+ *((unsigned int*)(fb + addr)) = col;
 }
 
 

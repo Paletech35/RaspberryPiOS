@@ -29,10 +29,11 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 	
 	initialise_fb();
 	
-	unsigned char col[4] = {0, 255, 255, 0};
-	
-	pixel(1, 1, &col[0]);
-	
+	for (int x = 0; x < 100; x++){
+	for (int y = 0; y < 100; y++){
+	pixel(x, y, 0xFFFFFF);
+	}
+	}
  
 	while (1)
 		uart_putc(uart_getc());
