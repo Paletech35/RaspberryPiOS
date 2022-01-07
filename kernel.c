@@ -1,21 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "io.h"
- 
+#include "graphics.h"
 
- /*
-// Memory-Mapped I/O output
-static inline void mmio_write(uint32_t reg, uint32_t data)
-{
-	*(volatile uint32_t*)(MMIO_BASE + reg) = data;
-}
- 
-// Memory-Mapped I/O input
-static inline uint32_t mmio_read(uint32_t reg)
-{
-	return *(volatile uint32_t*)(MMIO_BASE + reg);
-}
-*/
  
 // Loop <delay> times in a way that the compiler won't optimize away
 static inline void delay(int32_t count)
@@ -58,13 +45,6 @@ enum
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
  
- /*
-    // The offsets for Mailbox registers
-    MBOX_BASE    = 0xB880,
-    MBOX_READ    = (MBOX_BASE + 0x00),
-    MBOX_STATUS  = (MBOX_BASE + 0x18),
-    MBOX_WRITE   = (MBOX_BASE + 0x20)
-*/
 };
  
 // A Mailbox message with set clock rate of PL011 to 3MHz tag
@@ -141,17 +121,13 @@ void uart_puts(const char* str)
 extern "C" /* Use C linkage for kernel_main. */
 #endif
  
-#ifdef AARCH64
-// arguments for AArch64
-void kernel_main(uint64_t dtb_ptr32, uint64_t x1, uint64_t x2, uint64_t x3)
-#else
-// arguments for AArch32
+
 void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
-#endif
 {
 	// initialize UART for Raspi1
 	uart_init();
 	uart_puts("Hello, kernel World!\r\n");
+	
  
 	while (1)
 		uart_putc(uart_getc());
