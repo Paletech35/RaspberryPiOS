@@ -74,3 +74,15 @@ void uart_puts(const char* str)
 	for (size_t i = 0; str[i] != '\0'; i ++)
 		uart_putc((unsigned char)str[i]);
 }
+
+void uart_putnum(unsigned int num)
+{
+	for (int i = 7; i >= 0; i--){
+		unsigned char c = num >> (i * 4);
+		c &= 0xF;
+		if (c >= 0xA){
+			c += 7;
+		}
+		uart_putc(c + 0x30);
+	}
+}

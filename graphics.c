@@ -89,6 +89,8 @@ void initialise_fb(){
  pitch = mailbox[33];
  mailbox[28] &= 0x3FFFFFFF;
  fb = (unsigned char *)((long)mailbox[28]);
+ uart_puts("Pitch: ");
+ uart_putnum(pitch);
  }
  else{uart_puts("initialise_fb failed");}
 
