@@ -36,6 +36,8 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 	}
 	
 	drawString("Hello, \nkernel World!\r\n", 10, 10, 0xFF0000, 0x00FFFF);
+	
+	drawString("This string goes off the edge of the screen", 500, 100, 0xFF0000, 0x00FFFF);
  
 	while (1)
 		uart_putc(uart_getc());

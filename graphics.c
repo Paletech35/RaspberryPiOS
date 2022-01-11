@@ -109,6 +109,7 @@ void drawChar(unsigned char c, int x, int y, unsigned int col, unsigned int bgco
 void drawString(unsigned char *s, int x, int y, unsigned int col, unsigned int bgcol){
 	int offset = 0;
 	for (int i = 0; s[i] != '\0'; i++){
+		if ((x + offset * 8) * 4 >= pitch) offset = 0;
 		switch (s[i]){
 		case '\n':
 			y += 8;
