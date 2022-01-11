@@ -69,10 +69,10 @@ unsigned char uart_getc()
     return mmio_read(UART_DR);
 }
  
-void uart_puts(const char* str)
+void uart_puts(const char* s)
 {
-	for (size_t i = 0; str[i] != '\0'; i ++)
-		uart_putc((unsigned char)str[i]);
+	for (size_t i = 0; s[i] != '\0'; i ++)
+		uart_putc((unsigned char)s[i]);
 }
 
 void uart_putnum(unsigned int num)

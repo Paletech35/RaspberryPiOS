@@ -30,10 +30,12 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 	initialise_fb();
 	
 	for (int x = 0; x < 100; x++){
-	for (int y = 0; y < 100; y++){
-	pixel(x, y, 0xFFFFFF);
+		for (int y = 0; y < 100; y++){
+			pixel(x, y, 0xFFFFFF);
+		}
 	}
-	}
+	
+	drawString("Hello, kernel World!\r\n", 10, 10, 0xFF0000);
  
 	while (1)
 		uart_putc(uart_getc());

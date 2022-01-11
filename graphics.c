@@ -1,14 +1,6 @@
 #include "io.h"
 #include "mailbox.h"
-
-unsigned int add_setwh(int width, int height, int *ptr);
-void add_setvwh(int width, int height, int *ptr);
-void add_setvoffset(int x, int y, int *ptr);
-void add_setdepth(int depth, int *ptr);
-void add_setpixelorder(int *ptr);
-unsigned int add_getfb(int *ptr);
-unsigned int add_getpitch(int *ptr);
-
+#include "font.h"
 
 unsigned int width, height, pitch;
 unsigned char *fb;
@@ -104,58 +96,15 @@ void pixel(int x, int y, unsigned int col){
  *((unsigned int*)(fb + addr)) = col;
 }
 
-
-unsigned int add_setwh(int width, int height, int *ptr){
-mailbox[*ptr++] = MBTAG_SETWH;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = width;
-mailbox[*ptr++] = height;
-return *ptr - 2;
+void drawChar(unsigned char c, int x, int y, unsigned int col){
+	for (int row = 0; row < 8; row ++){
+		for (int column = 0; column < 8; column++){
+			if ((font[c][row] >> column) & 0x1){pixel(x + column, y + row, col);}
+		}
+	}
 }
-
-void add_setvwh(int width, int height, int *ptr){
-mailbox[*ptr++] = MBTAG_SETVWH;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = width;
-mailbox[*ptr++] = height;
-}
-
-void add_setvoffset(int x, int y, int *ptr){
-mailbox[*ptr++] = MBTAG_SETVOFFSET;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = x;
-mailbox[*ptr++] = y;
-}
-void add_setdepth(int depth, int *ptr){
-mailbox[*ptr++] = MBTAG_SETDEPTH;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = depth;
-}
-
-void add_setpixelorder(int *ptr){
-mailbox[*ptr++] = MBTAG_SETPIXELORDER;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = 1;
-}
-
-unsigned int add_getfb(int *ptr){
-mailbox[*ptr++] = MBTAG_GETFB;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = 8;
-mailbox[*ptr++] = 4096;
-mailbox[*ptr++] = 0;
-return *ptr - 2;
-}
-
-unsigned int add_getpitch(int *ptr){
-mailbox[*ptr++] = MBTAG_GETPITCH;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = 4;
-mailbox[*ptr++] = 0;
-return *ptr - 1;
+void drawString(unsigned char *s, int x, int y, unsigned int col){
+	for (int i = 0; s[i] != '\0'; i++){
+		drawChar(s[i], x + i * 8, y, col);
+	}
 }
