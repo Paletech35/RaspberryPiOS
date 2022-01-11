@@ -83,14 +83,17 @@ void initialise_fb(){
     mailbox[34] = MBTAG_EDGE;
  
  if (mailbox_call(8) && mailbox[28] != 0 && mailbox[20] == 32){
- uart_puts("initialise_fb success");
- width = mailbox[10];
- height = mailbox[11];
- pitch = mailbox[33];
- mailbox[28] &= 0x3FFFFFFF;
- fb = (unsigned char *)((long)mailbox[28]);
- uart_puts("Pitch: ");
- uart_putnum(pitch);
+ 	uart_puts("initialise_fb success");
+ 	
+ 	width = mailbox[10];
+ 	height = mailbox[11];
+ 	pitch = mailbox[33];
+ 	
+ 	mailbox[28] &= 0x3FFFFFFF;
+ 	fb = (unsigned char *)((long)mailbox[28]);
+ 	
+ 	uart_puts("Pitch: ");
+ 	uart_putnum(pitch);
  }
  else{uart_puts("initialise_fb failed");}
 

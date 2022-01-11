@@ -8,6 +8,6 @@ unsigned int mailbox_call(unsigned char c);
 #define MBTAG_SETPIXELORDER 0x48006
 
 #define MBTAG_GETFB    0x40001
-#define MBTAG_GETPITCH 0x40009
+#define MBTAG_GETPITCH 0x40008
 
 #define MBTAG_EDGE 0x0
