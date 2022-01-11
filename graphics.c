@@ -96,15 +96,28 @@ void pixel(int x, int y, unsigned int col){
  *((unsigned int*)(fb + addr)) = col;
 }
 
-void drawChar(unsigned char c, int x, int y, unsigned int col){
+void drawChar(unsigned char c, int x, int y, unsigned int col, unsigned int bgcol){
 	for (int row = 0; row < 8; row ++){
 		for (int column = 0; column < 8; column++){
-			if ((font[c][row] >> column) & 0x1){pixel(x + column, y + row, col);}
+			if ((font[c][row] >> column) & 0x1){pixel(x + column, y + row, col);
+			} else {
+				pixel(x + column, y + row, bgcol);
+			}
 		}
 	}
 }
-void drawString(unsigned char *s, int x, int y, unsigned int col){
+void drawString(unsigned char *s, int x, int y, unsigned int col, unsigned int bgcol){
+	int offset = 0;
 	for (int i = 0; s[i] != '\0'; i++){
-		drawChar(s[i], x + i * 8, y, col);
+		switch (s[i]){
+		case '\n':
+			y += 8;
+		case '\r':
+			offset = 0;
+			break;
+		default:
+			drawChar(s[i], x + offset++ * 8, y, col, bgcol);
+			break;
+		}
 	}
 }

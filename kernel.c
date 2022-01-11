@@ -35,7 +35,7 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
 		}
 	}
 	
-	drawString("Hello, kernel World!\r\n", 10, 10, 0xFF0000);
+	drawString("Hello, \nkernel World!\r\n", 10, 10, 0xFF0000, 0x00FFFF);
  
 	while (1)
 		uart_putc(uart_getc());
