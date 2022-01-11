@@ -16,9 +16,9 @@ void delay(int32_t count)
  
 
  
-#if defined(__cplusplus)
-extern "C" /* Use C linkage for kernel_main. */
-#endif
+/*#if defined(__cplusplus)
+extern "C"
+#endif*/
  
 
 void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
