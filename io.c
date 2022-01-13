@@ -86,3 +86,7 @@ void uart_putnum(unsigned int num)
 		uart_putc(c + 0x30);
 	}
 }
+
+void putc(void* p, char c){
+	uart_putc(c);
+}

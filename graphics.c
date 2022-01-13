@@ -122,3 +122,12 @@ void drawString(unsigned char *s, int x, int y, unsigned int col, unsigned int b
 		}
 	}
 }
+
+void clearScreen(unsigned int col){
+	for (int i = 0; i < width; i++){
+		for (int j = 0; j < height; j++){
+			int addr = j * pitch + i * 4;
+ 			*((unsigned int*)(fb + addr)) = col;
+		}	
+	}
+}
