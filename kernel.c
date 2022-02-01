@@ -5,13 +5,13 @@
 #include "terminal.h"
 #include "printf.h"
 
-void delay(int32_t count)
+void delay(unsigned int count)
 {
 	asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
 		 : "=r"(count): [count]"0"(count) : "cc");
 }
 
-void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags)
+void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 {
 	// initialize UART for Raspi1
 	uart_init();

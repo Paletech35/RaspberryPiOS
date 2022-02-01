@@ -43,6 +43,8 @@
 #define UART_ITIP    UART_BASE + 0x84
 #define UART_ITOP    UART_BASE + 0x88
 #define UART_TDR     UART_BASE + 0x8C
+
+#define INTERRUPTS_BASE MMIO_BASE + 0xB000
  
 void mmio_write(long reg, unsigned int val);
 unsigned int mmio_read(long reg);
