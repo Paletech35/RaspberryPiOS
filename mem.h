@@ -6,6 +6,7 @@
 typedef struct page{
 	unsigned int allocated: 1;
 	unsigned int kernel: 1;
+	unsigned int spare: 6;
 }page_t;
 
 typedef struct page_list_item{

@@ -57,6 +57,23 @@ void page_list_prepend(page_list_t  list, page_t * page){
 	}
 }
 
+page_t * page_list_pop(page_list_t list){
+
+	page_t * page = list.head->page_data;
+	
+	page_list_item_t *first = list.head->flink;
+	page_list_item_t *last = list.head->flink;
+	
+	first->blink = last;
+	last->flink = first;
+	
+	list.head = first;
+	
+	list.size--;
+	
+	return page;
+}
+
 void mem_init(atag_t *atags){
 	unsigned int memsize;
 	atag_t *tag;
@@ -86,5 +103,26 @@ void mem_init(atag_t *atags){
 			page_list_append(free_pages, &pages[i]);
 		}
 	}
+	
+}
+
+void * alloc_page(){
+	if (free_pages.size == 0) return 0;
+	
+	page_t * page;
+	page = page_list_pop(free_pages);
+	page->kernel = 1;
+	page->allocated = 0;
+	
+	void * page_mem = (void*)((page - pages) << 12);
+	
+	return page_mem;
+}
+
+void * free_page(void* ptr){
+	page_t * page;
+	
+	page = (page_t *)((unsigned int)pages + (unsigned int)ptr >> 12);
+	page_list_append(free_pages, page);
 	
 }
