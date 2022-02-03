@@ -1,3 +1,6 @@
+#ifndef KERNEL_H
+#define KERNEL_H
+
 void delay(unsigned int count);
 
 typedef enum{
@@ -92,3 +95,5 @@ typedef struct atag {
         cmdline_t cmdline;
     };
 } atag_t;
+
+#endif

@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include "terminal.h"
 #include "printf.h"
+#include "mem.h"
 
 void delay(unsigned int count)
 {
@@ -36,6 +37,8 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	terminal_init();
 	terminal_write_line("This is a line, written in the terminal");
 	terminal_draw;
+	
+	mem_init((atag_t *)atags);
  
 	while (1)
 		uart_putc(uart_getc());

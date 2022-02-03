@@ -17,7 +17,7 @@ page_t * page_list_get(page_list_t  list, unsigned int index){
 
 void page_list_append(page_list_t  list, page_t * page){
 	if (list.size != 0){
-		static volatile page_list_item_t new;
+		static page_list_item_t new;
 		new.page_data = page;
 		new.blink = list.tail;
 		new.flink = list.head;
@@ -26,7 +26,7 @@ void page_list_append(page_list_t  list, page_t * page){
 		list.tail = &new;
 		list.size++;
 	} else {
-		static volatile page_list_item_t new;
+		static page_list_item_t new;
 		new.page_data = page;
 		new.blink = &new;
 		new.flink = &new;
@@ -38,7 +38,7 @@ void page_list_append(page_list_t  list, page_t * page){
 
 void page_list_prepend(page_list_t  list, page_t * page){
 	if (list.size != 0){
-		static volatile page_list_item_t new;
+		static page_list_item_t new;
 		new.page_data = page;
 		new.blink = list.tail;
 		new.flink = list.head;
@@ -47,7 +47,7 @@ void page_list_prepend(page_list_t  list, page_t * page){
 		list.head = &new;
 		list.size++;
 	} else {
-		static volatile page_list_item_t new;
+		static page_list_item_t new;
 		new.page_data = page;
 		new.blink = &new;
 		new.flink = &new;
@@ -65,13 +65,13 @@ void mem_init(atag_t *atags){
 		if (tag->tag == MEM){
 			memsize = tag->mem.size;
 		}
-		tag = ((unsigned int *)tag) + tag->size;
+		tag += tag->size;
 	}
 	page_count = memsize / 4096;
 	unsigned int page_array_size = page_count * sizeof(page_t);
 	pages = (page_t*)&__end;
 	unsigned int remaining = page_array_size;
-	unsigned int * pages_temp = pages;
+	unsigned char * pages_temp = (unsigned char *)pages;
 	while (remaining--){
 		*pages_temp++ = 0;
 	}

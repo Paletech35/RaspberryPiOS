@@ -1,3 +1,8 @@
+#ifndef MEM_H
+#define MEM_H
+
+#include "kernel.h"
+
 typedef struct page{
 	unsigned int allocated: 1;
 	unsigned int kernel: 1;
@@ -14,3 +19,7 @@ typedef struct page_list{
 	page_list_item_t * tail;
 	unsigned int size;
 } page_list_t;
+
+void mem_init(atag_t * atags);
+
+#endif

@@ -5,7 +5,7 @@ SFILES = $(wildcard *.S)
 OFILES += $(SFILES:.S=.o)
 GCCPATH = /home/connor/opt/cross/bin
 
-all: kernel7.img clean
+all: kernel7.img
 
 kernel7.img: $(OFILES) $(HFILES)
 	$(GCCPATH)/arm-none-eabi-gcc -T linker.ld -o os.elf -O2 -ffreestanding -nostdinc -nostdlib $(OFILES) -lgcc
