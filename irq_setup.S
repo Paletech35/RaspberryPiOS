@@ -14,7 +14,7 @@ exception_vector:
 
 res_abs_addr:			.word reset_handler
 undef_abs_addr:			.word undefined_instruction_handler
-swi_abs_addr:			.word software_interrupt_handler
+swi_abs_addr:			.word swi_handler
 prefetch_abort_abs_addr:	.word prefetch_abort_handler
 data_abort_abs_addr:		.word data_abort_handler
 irq_abs_addr:			.word irq_handler_wrapper

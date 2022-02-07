@@ -1,41 +1,63 @@
 #include "io.h"
 #include "printf.h"
+#include "irq_handler.h"
 
-#define IRQ_IS_BASIC(x) ((x >= 64 ))
-#define IRQ_IS_GPU2(x) ((x >= 32 && x < 64 ))
-#define IRQ_IS_GPU1(x) ((x < 32 ))
-#define IRQ_IS_PENDING(regs, num) ((IRQ_IS_BASIC(num) && ((1 << (num-64)) & regs->irq_basic_pending)) || (IRQ_IS_GPU2(num) && ((1 << (num-32)) & regs->irq_gpu_pending2)) || (IRQ_IS_GPU1(num) && ((1 << (num)) & regs->irq_gpu_pending1)))
 
-extern void move_to_zero(void);
 
-typedef struct {
-    unsigned int irq_basic_pending;
-    unsigned int irq_gpu_pending1;
-    unsigned int irq_gpu_pending2;
-    unsigned int fiq_control;
-    unsigned int irq_gpu_enable1;
-    unsigned int irq_gpu_enable2;
-    unsigned int irq_basic_enable;
-    unsigned int irq_gpu_disable1;
-    unsigned int irq_gpu_disable2;
-    unsigned int irq_basic_disable;
-} interrupt_registers;
+__inline__ void enable_interrupts(){
+	__asm__ __volatile__("cpsie i");
+}
 
-typedef void (*interrupt_handler)(void);
-static interrupt_handler handlers[72];
+__inline__ void disable_interrupts(){
+	__asm__ __volatile__("cpsid i");
+}
 
-typedef void (*interrupt_clearer)(void);
-static interrupt_clearer clearers[72];
+extern void move_to_zero();
 
-typedef enum {
-    SYSTEM_TIMER_1 = 1,
-    USB_CONTROLER = 9,
-    ARM_TIMER = 64
-} irq_number_t;
+
+static interrupt_registers_t * interrupt_regs;
+
+void interrupts_init(){
+	interrupt_regs = (interrupt_registers_t *)INTERRUPTS_PENDING;
+	interrupt_regs->irq_basic_disable = 0xFFFFFFFF;
+	interrupt_regs->irq_gpu_disable1  = 0xFFFFFFFF;
+	interrupt_regs->irq_gpu_disable2  = 0xFFFFFFFF;
+	
+	move_to_zero();
+	enable_interrupts();
+}
+
+
+void register_irq_handler(irq_number_t irq_num, interrupt_handler_f handler, interrupt_clearer_f clearer){
+	unsigned int irq_pos;
+	handlers[irq_num] = handler;
+	handlers[irq_num] = handler;
+	
+	
+	if (IRQ_IS_BASIC(irq_num)) {
+		irq_pos = irq_num - 64;
+		interrupt_regs->irq_basic_enable |= (1 << irq_pos);
+		
+	} else if (IRQ_IS_GPU2(irq_num)) {
+		irq_pos = irq_num - 32;
+		interrupt_regs->irq_gpu_enable2 |= (1 << irq_pos);
+		
+	} else if (IRQ_IS_GPU1(irq_num)) {
+		irq_pos = irq_num;
+		interrupt_regs->irq_gpu_enable1 |= (1 << irq_pos);
+	}
+}
 
 void irq_handler(void) {
-    printf("IRQ HANDLER\n");
-    while(1);
+    for (int i = 0; i < 72; i++){
+    	if(IRQ_IS_PENDING(interrupt_regs, i) && (handlers[i] != 0)){
+    		clearers[i]();
+    		enable_interrupts();
+    		handlers[i]();
+    		disable_interrupts();
+    		return;
+    	}
+    }
 }
 
 void __attribute__ ((interrupt ("ABORT"))) reset_handler(void) {
@@ -54,7 +76,7 @@ void __attribute__ ((interrupt ("UNDEF"))) undefined_instruction_handler(void) {
     printf("UNDEFINED INSTRUCTION HANDLER\n");
     while(1);
 }
-void __attribute__ ((interrupt ("SWI"))) software_interrupt_handler(void) {
+void __attribute__ ((interrupt ("SWI"))) swi_handler(void) {
     printf("SWI HANDLER\n");
     while(1);
 }

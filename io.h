@@ -45,6 +45,9 @@
 #define UART_TDR     UART_BASE + 0x8C
 
 #define INTERRUPTS_BASE MMIO_BASE + 0xB000
+#define INTERRUPTS_PENDING INTERRUPTS_BASE + 0x200
+
+#define TIMER_BASE MMIO_BASE + 0x3000
  
 void mmio_write(long reg, unsigned int val);
 unsigned int mmio_read(long reg);
