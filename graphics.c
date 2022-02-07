@@ -8,28 +8,7 @@ unsigned char *fb;
 void initialise_fb(){
  int length = 0;
  int ptr = 2;
- /*
  
- mailbox[0] = 35*4;
- mailbox[1] = MBTAG_EDGE;
- 
- unsigned int whloc = add_setwh(1920, 1080, &ptr);
- add_setvwh(1920, 1080, &ptr);
- add_setvoffset(0, 0, &ptr);
- add_setdepth(32, &ptr);
- add_setpixelorder(&ptr);
- unsigned int fbstart = add_getfb(&ptr);
- uart_putc((fbstart & 0xF0000000 >> 28) + 48);
- uart_putc((fbstart & 0x0F000000 >> 24) + 48);
- uart_putc((fbstart & 0x00F00000 >> 20) + 48);
- uart_putc((fbstart & 0x000F0000 >> 16) + 48);
- uart_putc((fbstart & 0x0000F000 >> 12) + 48);
- uart_putc((fbstart & 0x00000F00 >> 8) + 48);
- uart_putc((fbstart & 0x000000F0 >> 4) + 48);
- uart_putc((fbstart & 0x0000000F >> 0) + 48);
- unsigned int pitchloc = add_getpitch(&ptr);
- 
- mailbox[ptr] = MBTAG_EDGE;*/
  mailbox[0] = 35*4; // Length of message in bytes
     mailbox[1] = MBTAG_EDGE;
 

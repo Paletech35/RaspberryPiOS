@@ -1,4 +1,4 @@
-/*.section ".text"
+.section ".text"
 
 .global move_to_zero
 
@@ -15,10 +15,10 @@ exception_vector:
 res_abs_addr:			.word reset_handler
 undef_abs_addr:			.word undefined_instruction_handler
 swi_abs_addr:			.word software_interrupt_handler
-prefetch_abort_abs_addr:	.word prefetch_abort
+prefetch_abort_abs_addr:	.word prefetch_abort_handler
 data_abort_abs_addr:		.word data_abort_handler
 irq_abs_addr:			.word irq_handler_wrapper
-fiq_abs_addr:			.word fiq
+fiq_abs_addr:			.word fiq_handler
 
 
 move_to_zero:
@@ -85,4 +85,3 @@ irq_handler_wrapper:
 	add	sp, sp, r1
 	load_reg
 	rfeia	sp!
-*/

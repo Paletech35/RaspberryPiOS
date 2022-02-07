@@ -1,4 +1,5 @@
 #include "io.h"
+#include "printf.h"
 
 #define IRQ_IS_BASIC(x) ((x >= 64 ))
 #define IRQ_IS_GPU2(x) ((x >= 32 && x < 64 ))
@@ -31,3 +32,34 @@ typedef enum {
     USB_CONTROLER = 9,
     ARM_TIMER = 64
 } irq_number_t;
+
+void irq_handler(void) {
+    printf("IRQ HANDLER\n");
+    while(1);
+}
+
+void __attribute__ ((interrupt ("ABORT"))) reset_handler(void) {
+    printf("RESET HANDLER\n");
+    while(1);
+}
+void __attribute__ ((interrupt ("ABORT"))) prefetch_abort_handler(void) {
+    printf("PREFETCH ABORT HANDLER\n");
+    while(1);
+}
+void __attribute__ ((interrupt ("ABORT"))) data_abort_handler(void) {
+    printf("DATA ABORT HANDLER\n");
+    while(1);
+}
+void __attribute__ ((interrupt ("UNDEF"))) undefined_instruction_handler(void) {
+    printf("UNDEFINED INSTRUCTION HANDLER\n");
+    while(1);
+}
+void __attribute__ ((interrupt ("SWI"))) software_interrupt_handler(void) {
+    printf("SWI HANDLER\n");
+    while(1);
+}
+void __attribute__ ((interrupt ("FIQ"))) fiq_handler(void) {
+    printf("FIQ HANDLER\n");
+    while(1);
+}
+
