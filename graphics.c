@@ -5,8 +5,8 @@
 unsigned int width, height, pitch;
 unsigned char *fb;
 
-volatile unsigned int currX;
-volatile unsigned int currY;
+volatile unsigned int currX = 0;
+volatile unsigned int currY = 0;
 
 void initialise_fb(){
  int length = 0;
