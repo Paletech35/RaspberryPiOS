@@ -5,6 +5,9 @@
 unsigned int width, height, pitch;
 unsigned char *fb;
 
+volatile unsigned int currX;
+volatile unsigned int currY;
+
 void initialise_fb(){
  int length = 0;
  int ptr = 2;
@@ -109,4 +112,12 @@ void clearScreen(unsigned int col){
  			*((unsigned int*)(fb + addr)) = col;
 		}	
 	}
+}
+
+void g_putc(void * p, char c){
+	if (++currX > (width >> 3)){
+		currX = 0;
+		if (++currY > (height >> 3))currY = 0;
+	}
+	drawChar(c, currX << 3, currY << 3, 0xFFFFFF, 0);
 }

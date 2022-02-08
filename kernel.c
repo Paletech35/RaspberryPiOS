@@ -18,27 +18,14 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 {
 	// initialize UART for Raspi1
 	uart_init();
-	init_printf(0, putc);
-	uart_puts("Hello, kernel World!\r\n");
-	
-	int test = 10;
-	printf("Hey there! %d \r\n", test);
-	
 	initialise_fb();
+	init_printf(0, g_putc);
 	
 	for (int x = 0; x < 100; x++){
 		for (int y = 0; y < 100; y++){
 			pixel(x, y, 0xFFFFFF);
 		}
 	}
-	
-	drawString("Hello, \nkernel World!\r\n", 10, 10, 0xFF0000, 0x00FFFF);
-	
-	drawString("This string goes off the edge of the screen", 1000, 100, 0xFF0000, 0x00FFFF);
-	
-	terminal_init();
-	terminal_write_line("This is a line, written in the terminal");
-	terminal_draw;
 	
 	mem_init((atag_t *)atags);
 	interrupts_init();
