@@ -5,6 +5,8 @@
 #include "terminal.h"
 #include "printf.h"
 #include "mem.h"
+#include "timer.h"
+#include "irq_handler.h"
 
 void delay(unsigned int count)
 {
@@ -39,6 +41,8 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	terminal_draw;
 	
 	mem_init((atag_t *)atags);
+	interrupts_init();
+	timer_init();
  
 	while (1)
 		uart_putc(uart_getc());

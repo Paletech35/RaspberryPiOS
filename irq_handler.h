@@ -1,3 +1,6 @@
+#ifndef IRQ_H
+#define IRQ_H
+
 #define IRQ_IS_BASIC(x) ((x >= 64 ))
 #define IRQ_IS_GPU2(x) ((x >= 32 && x < 64 ))
 #define IRQ_IS_GPU1(x) ((x < 32 ))
@@ -29,3 +32,7 @@ typedef void (*interrupt_clearer_f)(void);
 static interrupt_clearer_f clearers[72];
 
 void register_irq_handler(irq_number_t irq_num, interrupt_handler_f handler, interrupt_clearer_f clearer);
+
+void interrupts_init();
+
+#endif
