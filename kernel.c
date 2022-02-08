@@ -30,7 +30,7 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	mem_init((atag_t *)atags);
 	interrupts_init();
 	timer_init();
-	timer_set(3000000);
+	timer_set(300000);
  
 	while (1)
 		uart_putc(uart_getc());

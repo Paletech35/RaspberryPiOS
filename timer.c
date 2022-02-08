@@ -12,7 +12,7 @@ void timer_set(uint32_t usecs) {
 
 static void timer_irq_handler() {
     printf("timeout :)\n");
-    timer_set(3000000);
+    timer_set(300000);
 }
 
 static void timer_irq_clearer() {
