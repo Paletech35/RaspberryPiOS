@@ -3,7 +3,8 @@
 #include "irq_handler.h"
 #include "graphics.h"
 
-
+char * irq_msg = "Run irq handler\0";
+char * irq_run_msg = "handler found :)\0";
 
 __inline__ void enable_interrupts(){
 	__asm__ __volatile__("cpsie i");
@@ -50,12 +51,18 @@ void register_irq_handler(irq_number_t irq_num, interrupt_handler_f handler, int
 }
 
 void irq_handler(void) {
+	drawString(irq_msg, 100, 100, 0xFF00FF, 0xFF00);
     for (int i = 0; i < 72; i++){
     	if(IRQ_IS_PENDING(interrupt_regs, i) && (handlers[i] != 0)){
+    		drawString(irq_run_msg, 100, 108, 0xFF00FF, 0xFF00);
     		clearers[i]();
+    		drawString(irq_run_msg, 100, 116, 0xFF00FF, 0xFF00);
     		enable_interrupts();
+    		drawString(irq_run_msg, 100, 124, 0xFF00FF, 0xFF00);
     		handlers[i]();
+    		drawString(irq_run_msg, 100, 132, 0xFF00FF, 0xFF00);
     		disable_interrupts();
+    		drawString(irq_run_msg, 100, 140, 0xFF00FF, 0xFF00);
     		return;
     	}
     }
