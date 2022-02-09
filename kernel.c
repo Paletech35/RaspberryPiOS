@@ -30,6 +30,9 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	mem_init((atag_t *)atags);
 	interrupts_init();
 	timer_init();
+	
+	char * msg1 = "Timer inited";
+	drawString(msg1, 1000, 100, 0xFF00FF, 0xFF00);
 	timer_set(3000000);
  
 	while (1)
