@@ -1,6 +1,7 @@
 #include "io.h"
 #include "printf.h"
 #include "irq_handler.h"
+#include "graphics.h"
 
 
 
