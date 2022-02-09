@@ -31,7 +31,7 @@ void interrupts_init(){
 void register_irq_handler(irq_number_t irq_num, interrupt_handler_f handler, interrupt_clearer_f clearer){
 	unsigned int irq_pos;
 	handlers[irq_num] = handler;
-	handlers[irq_num] = handler;
+	clearers[irq_num] = clearer;
 	
 	
 	if (IRQ_IS_BASIC(irq_num)) {
