@@ -3,6 +3,9 @@
 #include "printf.h"
 #include "irq_handler.h"
 #include <stdint.h>
+#include "graphics.h"
+
+int count = 0;
 
 static timer_registers_t * timer_regs;
 
@@ -11,8 +14,9 @@ void timer_set(uint32_t usecs) {
 }
 
 static void timer_irq_handler() {
-    printf("timeout :)\n");
-    timer_set(300000);
+    //printf("timeout :)\n");
+    pixel(count++, 0, 0x0000FF00);
+    timer_set(3);
 }
 
 static void timer_irq_clearer() {

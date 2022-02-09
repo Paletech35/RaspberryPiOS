@@ -119,5 +119,5 @@ void g_putc(void * p, char c){
 		currX = 0;
 		if (++currY > (height >> 3))currY = 0;
 	}
-	drawChar(c, currX << 3, currY << 3, 0xFFFFFF, 0);
+	drawChar(c, currX << 3, currY << 3, 0xFF00FF, 0x00FF00);
 }
