@@ -25,7 +25,7 @@ void interrupts_init(){
 	interrupt_regs->irq_gpu_disable1  = 0xFFFFFFFF;
 	interrupt_regs->irq_gpu_disable2  = 0xFFFFFFFF;
 	
-	//move_to_zero();
+	move_to_zero();
 	enable_interrupts();
 }
 
@@ -39,14 +39,17 @@ void register_irq_handler(irq_number_t irq_num, interrupt_handler_f handler, int
 	if (IRQ_IS_BASIC(irq_num)) {
 		irq_pos = irq_num - 64;
 		interrupt_regs->irq_basic_enable |= (1 << irq_pos);
+		interrupt_regs->irq_basic_disable &= ~(1 << irq_pos);
 		
 	} else if (IRQ_IS_GPU2(irq_num)) {
 		irq_pos = irq_num - 32;
 		interrupt_regs->irq_gpu_enable2 |= (1 << irq_pos);
+		interrupt_regs->irq_gpu_disable2 &= ~(1 << irq_pos);
 		
 	} else if (IRQ_IS_GPU1(irq_num)) {
 		irq_pos = irq_num;
 		interrupt_regs->irq_gpu_enable1 |= (1 << irq_pos);
+		interrupt_regs->irq_gpu_disable1 &= ~(1 << irq_pos);
 	}
 }
 

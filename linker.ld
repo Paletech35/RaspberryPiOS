@@ -2,15 +2,14 @@ ENTRY(_start)
  
 SECTIONS
 {
-    . = 0x0000;
-    
+/*    . = 0x0000;
     __vectable_start = .;
     .vectable :
     {
         KEEP(*(.vectable))
     }
     __vectable_end = .;
-    
+*/    
     . = 0x8000;
     __start = .;
     __text_start = .;
