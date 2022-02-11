@@ -7,7 +7,7 @@ GCCPATH = /home/connor/opt/cross/bin
 
 all: kernel.img
 
-kernel.img: $(OFILES) $(HFILES)
+kernel.img: $(OFILES) $(HFILES) linker.ld
 	$(GCCPATH)/arm-none-eabi-gcc -T linker.ld -o os.elf -O2 -ffreestanding -nostdlib -Wl,-z,max-page-size=0x1000 $(OFILES) -lgcc
 	$(GCCPATH)/arm-none-eabi-objcopy os.elf -O binary kernel.img
 

@@ -33,7 +33,7 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	
 	char * msg1 = "Timer inited";
 	drawString(msg1, 1000, 100, 0xFF00FF, 0xFF00);
-	timer_set(3000000);
+	timer_set(300000);
  
 	while (1)
 		uart_putc(uart_getc());

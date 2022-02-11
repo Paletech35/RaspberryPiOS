@@ -25,7 +25,7 @@ void interrupts_init(){
 	interrupt_regs->irq_gpu_disable1  = 0xFFFFFFFF;
 	interrupt_regs->irq_gpu_disable2  = 0xFFFFFFFF;
 	
-	move_to_zero();
+	//move_to_zero();
 	enable_interrupts();
 }
 
