@@ -31,9 +31,11 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	interrupts_init();
 	timer_init();
 	
-	char * msg1 = "Timer inited";
-	drawString(msg1, 1000, 100, 0xFF00FF, 0xFF00);
+	drawString("Timer inited", 1000, 100, 0xFF00FF, 0xFF00);
 	timer_set(300000);
+	
+	drawString((unsigned char *)0x0, 0, 400, 0xFF00, 0xFF00FF);
+	
  
 	while (1)
 		uart_putc(uart_getc());
