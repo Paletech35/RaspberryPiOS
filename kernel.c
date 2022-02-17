@@ -29,12 +29,14 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	
 	mem_init((atag_t *)atags);
 	interrupts_init();
-	timer_init();
 	
+	drawString((unsigned char *)0x0, 0, 400, 0xFF00, 0xFF00FF);
+	
+	timer_init();
 	drawString("Timer inited", 1000, 100, 0xFF00FF, 0xFF00);
 	timer_set(300000);
 	
-	drawString((unsigned char *)0x0, 0, 400, 0xFF00, 0xFF00FF);
+	drawString((unsigned char *)0x0, 0, 409, 0xFF00, 0xFF00FF);
 	
  
 	while (1)
