@@ -39,7 +39,7 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	
 	drawString((unsigned char *)0x0, 0, 409, 0xFF00, 0xFF00FF);
 	
- 	gameoflife();
+ 	//gameoflife();
  	
 	while (1)
 		uart_putc(uart_getc());

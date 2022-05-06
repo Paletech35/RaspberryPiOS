@@ -1,28 +1,45 @@
 #include "graphics.h"
+#include "gameoflife.h"
+#include <stdbool.h>
 
 int terminalWidth;
 int terminalHeight;
-//extern unsigned char terminalData[][];
+unsigned char terminalData[200];
+int chars;
 int currRow;
+int currCol;
 
-extern void terminal_init(){
-}
-extern void terminal_write_line(unsigned char *s){
 
+
+bool strcmp(unsigned char *s1, unsigned char *s2){
+	int i = 0;
+	bool mismatch = false;
+	while (!mismatch){
+		if (s1[i] == '\0' & s2[i] == '\0') return true;
+		mismatch = !(s1[i] == s2[i]);
+	}
+	return false;
 }
-/*
+
+void terminal_write_line(unsigned char *s){
+	drawString(s, 0, currRow++ * 8, 0xFFFFFF, 0x0);
+	currRow = currRow > terminalHeight ? 0 : currRow;
+}
+
 void terminal_main(){
-	terminal_init();
+	//terminal_init();
 	
 }
 
 void terminal_init(){
 	terminalWidth = (int)(width / 8);
 	terminalHeight = (int)(height / 8);
-	char terminalData[terminalHeight + 1][terminalWidth + 1] = {0};
-	int currRow = 0;
+	//char terminalData[terminalHeight + 1][terminalWidth + 1] = {0};
+	currRow = 0;
+	currCol = 0;
+	chars = 0;
 }
-
+/*
 void terminal_newline(){
 	if (currRow++ > terminalHeight){
 		currRow = 0;
@@ -48,8 +65,31 @@ void terminal_write_line(unsigned char *s){
 		}
 		if (offset >= terminalWidth) {offset = 0; terminal_newline();}
 	}
+}*/
+void execute(unsigned char *cmd){
+	if (strcmp(cmd, "life\0")) gameoflife();
+	else terminal_write_line("Error: command not recognized");
 }
 
+void terminal_putc(char c){
+	switch (c){
+		case '\n':
+			execute(terminalData);
+			for (int i = 0; i < 200; i++){
+				terminalData[i] = '\0';
+			}
+			break;
+		default:
+			drawChar(c, currCol++ * 8, currRow * 8, 0xFFFFFF, 0x0);
+			currCol = currCol > terminalWidth ? 0 : currCol;
+			if (currCol == 0) currRow++;
+			currRow = currRow > terminalHeight ? 0 : currRow;
+	}
+}
+
+
+
+/*
 void terminal_draw(){
 	int rowsDrawn = 0;
 	int ptr = currRow + 2; //loop past buffer row, start on 'first' row
