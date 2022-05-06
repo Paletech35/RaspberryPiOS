@@ -1,6 +1,9 @@
 #include "graphics.h"
 #include "gameoflife.h"
 #include <stdbool.h>
+#include "io.h"
+
+void terminal_putc(char c);
 
 int terminalWidth;
 int terminalHeight;
@@ -27,7 +30,9 @@ void terminal_write_line(unsigned char *s){
 }
 
 void terminal_main(){
-	//terminal_init();
+	unsigned char letter = uart_getc();
+	terminal_putc(letter);
+	
 	
 }
 
@@ -78,12 +83,14 @@ void terminal_putc(char c){
 			for (int i = 0; i < 200; i++){
 				terminalData[i] = '\0';
 			}
+			chars = 0;
 			break;
 		default:
 			drawChar(c, currCol++ * 8, currRow * 8, 0xFFFFFF, 0x0);
 			currCol = currCol > terminalWidth ? 0 : currCol;
 			if (currCol == 0) currRow++;
 			currRow = currRow > terminalHeight ? 0 : currRow;
+			terminalData[chars++] = c;
 	}
 }
 
