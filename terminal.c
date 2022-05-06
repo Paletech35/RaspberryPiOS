@@ -72,8 +72,11 @@ void terminal_write_line(unsigned char *s){
 		if (offset >= terminalWidth) {offset = 0; terminal_newline();}
 	}
 }*/
-void execute(unsigned char *cmd){
-	if (strcmp(cmd, "life\0")) gameoflife();
+void terminal_execute(unsigned char *cmd){
+	if (strcmp(cmd, "life\0")) {
+		terminal_write_line("Command recognized. Running...");
+		gameoflife();
+	}
 	else {
 		terminal_write_line("Error: command not recognized");
 		terminal_write_line(cmd);
@@ -83,7 +86,7 @@ void execute(unsigned char *cmd){
 void terminal_putc(char c){
 	if (c == 'p'){
 			drawChar(c, currCol++ * 8, currRow * 8, 0xFF0000, 0x0);
-			execute(terminalData);
+			terminal_execute(terminalData);
 			drawChar(c, currCol++ * 8, currRow * 8, 0xFF0000, 0x0);
 			for (int i = 0; i < 200; i++){
 				terminalData[i] = '\0';
