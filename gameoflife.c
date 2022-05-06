@@ -110,6 +110,11 @@ void step(char world_a[COLS][ROWS], char world_b[COLS][ROWS]){ // Iterates throu
 }
 
 int gameoflife(){
+
+	drawString("game of life booting", 0, 0, 0xFFFFFF, 0x0);
+	delay(100000);
+	
+
 	fertility = 4;
 	
 	char buffer[100] = "";

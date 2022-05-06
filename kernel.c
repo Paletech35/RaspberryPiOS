@@ -30,7 +30,7 @@ void kernel_main(unsigned int r0, unsigned int r1, unsigned int atags)
 	//	}
 	//}
 	
-	//mem_init((atag_t *)atags);
+	mem_init((atag_t *)atags);
 	//interrupts_init();
 	
 	//drawString((unsigned char *)0x0, 0, 400, 0xFF00, 0xFF00FF);

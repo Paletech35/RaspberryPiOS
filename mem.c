@@ -2,6 +2,8 @@
 #include "mem.h"
 #include "kernel.h"
 
+#define VMMODE
+
 extern unsigned char __end;
 static unsigned int page_count;
 
@@ -79,6 +81,7 @@ page_t * page_list_pop(page_list_t list){
 
 void mem_init(atag_t *atags){
 	unsigned int memsize;
+#ifndef VMMODE
 	atag_t *tag;
 	tag = atags;
 	while (tag->tag != NONE){
@@ -87,6 +90,9 @@ void mem_init(atag_t *atags){
 		}
 		tag += tag->size;
 	}
+#else
+	memsize = 0x1 << 27;
+#endif
 	page_count = memsize >> 12;
 	unsigned int page_array_size = page_count * sizeof(page_t);
 	pages = (page_t*)&__end;
