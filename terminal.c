@@ -30,9 +30,10 @@ void terminal_write_line(unsigned char *s){
 }
 
 void terminal_main(){
-	unsigned char letter = uart_getc();
-	terminal_putc(letter);
-	
+	while(true){
+		unsigned char letter = uart_getc();
+		terminal_putc(letter);
+	}
 	
 }
 
@@ -73,7 +74,10 @@ void terminal_write_line(unsigned char *s){
 }*/
 void execute(unsigned char *cmd){
 	if (strcmp(cmd, "life\0")) gameoflife();
-	else terminal_write_line("Error: command not recognized");
+	else {
+		terminal_write_line("Error: command not recognized");
+		terminal_write_line(cmd);
+	}
 }
 
 void terminal_putc(char c){
