@@ -82,6 +82,7 @@ void execute(unsigned char *cmd){
 
 void terminal_putc(char c){
 	if (c == 'p'){
+			drawChar(c, currCol++ * 8, currRow * 8, 0xFF0000, 0x0);
 			execute(terminalData);
 			for (int i = 0; i < 200; i++){
 				terminalData[i] = '\0';
