@@ -81,15 +81,14 @@ void execute(unsigned char *cmd){
 }
 
 void terminal_putc(char c){
-	switch (c){
-		case ' ':
+	if (c == 'p'){
 			execute(terminalData);
 			for (int i = 0; i < 200; i++){
 				terminalData[i] = '\0';
 			}
 			chars = 0;
-			break;
-		default:
+	} else {
+	
 			drawChar(c, currCol++ * 8, currRow * 8, 0xFFFFFF, 0x0);
 			currCol = currCol > terminalWidth ? 0 : currCol;
 			if (currCol == 0) currRow++;
