@@ -20,6 +20,7 @@ bool strcmp(unsigned char *s1, unsigned char *s2){
 	while (!mismatch){
 		if (s1[i] == '\0' & s2[i] == '\0') return true;
 		mismatch = !(s1[i] == s2[i]);
+		i++;
 	}
 	return false;
 }
