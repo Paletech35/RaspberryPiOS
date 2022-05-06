@@ -82,7 +82,7 @@ void execute(unsigned char *cmd){
 
 void terminal_putc(char c){
 	switch (c){
-		case '\n':
+		case '\r':
 			execute(terminalData);
 			for (int i = 0; i < 200; i++){
 				terminalData[i] = '\0';
